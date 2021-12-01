@@ -1,0 +1,176 @@
+래퍼 클래스(Wrapper Class)
+기본 타입의 데이터를 객체로 취급해야 할 경우 객체로 포장해주는 클래스
+
+기본
+byte    ->  Byte
+short   -> Short
+int     -> Int
+long    -> Long
+float   -> Float
+double  -> Double
+char    -> Character
+boolean -> Boolean
+
+    String num = "10";
+    int i = Integer.parseInt(num);
+
+박싱(Boxing)
+기본타입을 래퍼클래스로 변환
+    int num = 10;
+    Integer i = new Integer(num);
+
+언박싱(UnBoxing)
+래퍼클래스를 기본타입으로 변환
+    int num = i.intValue();
+
+
+제네릭(Generic)
+클래스나 메소드에서 사용할 데이터의 타입을 컴파일 시에 미리 지정하는 방법
+
+Object 클래스
+- 자바의 모든 클래스의 최상위 조상 클래스
+- 모든 타입은 Object 클래스 객체화를 시킬 수 있음
+- 기본 데이터 타입을 객체화 시킨 래퍼타입으로 대입을 받을 수 있음
+
+
+public int plus(int num1, int num2){
+    return num1 + num2;
+}
+public double plus(double num1, double num2){
+    return num1 + num2;
+}
+public long plus(long num1, long num2){
+    return num1 + num2;
+}
+
+제네릭을 사용하는 이유
+- 다양한 타입의 객체에 재사용을 높일 수 있는 방법
+- 클래스에서 사용할 타입을 외부에서 설정(파라미터를 외부에서 처리 가능)
+- 반복적인 코드, 불필요한 코드를 사용하지 않도록 재활용 가능
+- 강제적인 타입변환을 발생시키지 않음
+
+    public class Box<T>{        // int
+        private T num1;         // int
+        private T num2;         // int
+        private T plus(T num1, T num2){     // int
+            return num1 + num2;
+        }
+    }
+
+    Box<Integer> box = new Box();
+
+    사용방법 :
+    - 클래스 또는 인터페이스에 <>를 붙이고 타입 파라미터를 지정
+    - <>안에는 클래스 타입이 들어가야 함
+    -
+
+    타입          뜻
+    <T>          Type
+    <E>          Element
+    <K>          Key
+    <V>          Value
+    <N>          Number
+
+** 제네릭을 사용할 수 없는 경우 **
+- 제네릭으로 배열을 생성할 수 없음
+- Static 변수를 제네릭으로 사용할 수 없음
+
+추상 클래스(abstract)
+- 클래스의 용도가 객체 생성 용도로 사용할 수 없음
+- 추상 메소드를 1개 이상 가지고 있는 클래스
+(자식 클래스에서 반드시 오버라이드 해야 하는 메소드)
+- 변수의 타입으로 선언하는 용도와 상속 본연의 기능으로 특정한 코드를 하위 클래스로 물려주기 위해 생성
+- 추상 클래스는 자식 클래스에서 상속을 해야 사용가능하기 때문에 자식 클래스는 다른 클래스를 상속 받을 수 없음
+(자바는 단일상속)
+
+final 키워드
+- 클래스, 변수, 메소드에서 사용하는 키워드로 변할 수 없는 상태를 나타냄
+- final 클래스는 상속할 수 없음
+    final class Class1{
+        ....
+    }
+    class Class2 extends Class1 {   // 에러 !
+        ...
+    }
+
+- final 변수는 값을 재할당할 수 없음, 변수 -> 상수
+    final String str = "Apple";
+    str = "Banana";     // 에러 !
+- final 메소드는 오버라이딩할 수 없음
+    class Class1 {
+        final String method1(){
+            return "안녕하세요 !"
+        }
+    }
+    public class Class2 extends Class1{
+        String method(){    // 에러 !
+            return "반갑습니다!"
+        }
+    }
+
+인터페이스(Interface)
+- 자바는 다중 상속을 지원하지 않으므로 인터페이스를 사용하여 다중 상속을 구현
+- 다른 클래스를 작성할 때 기본이 되는 틀을 제공하면서, 다른 클래스 사이의 매개역할을 담당하는 일종의
+  추상클래스와 비슷
+- 인터페이스는 추상 메소드와 상수만을 포함할 수 있음 -> 인스턴스 메소드(일반 메소드), static 메소드(heep영역에 미리 올려놓은 메소드)
+  도 포함(jdk8)
+
+인터페이스 작성
+    접근제어자 interface 인터페이스명 {
+        (public static final) 타입 상수명 = 값;
+        (public abstract) 리턴타입 메소드명(매개변수1, 매개변수2, ...);
+    }
+
+인터페이스의 모든 필드는 public static final 이여야 함!!!
+인터페이스의 모든 메소드는 public abstract 이여야 함!!!
+
+인터페이스 구현
+    class 클래스명 implement 인터페이스명 {
+
+    }
+
+    자바의 상속과 인터페이스의 구현을 동시에 하려면
+        class 클래스명 extends 부모클래스명 implements 인터페이스명 {
+            ...
+        }
+    여러개의 인터페이스를 구현하려면
+        class 클래스명 extends 부모클래스명 implements 인터페이스명, 인터페이스명, 인터페이스명 .. {
+            ...
+        }
+
+컬렉션 프레임워크
+- 여러가지 데이터를 메모리에서 쉽고 효과적으로 처리할 수 있는 표준화된 방법을 제공하는 클래스들의 집합
+- 자료구조를 구현한 클래스의 모음
+
+자료구조
+- 데이터를 효율적으로 관리할 수 있는 데이터 구조를 의미
+- 데이터의 특성에 따라 체계적으로 구조화함
+
+알고리즘
+- 어떤 문제를 풀기 위한 절차 및 방법
+- 어떤 문제에 대해 입력을 넣으면 원하는 출력을 얻을 수 있도록 만드는 프로그램
+
+List 인터페이스
+- 순서가 있는 데이터들의 집합으로 데이터의 중복을 허용
+- Vector, ArrayList, LinkedList, Stack, Queue
+
+Set 인터페이스
+- 순서가 없는 데이터 집합으로 데이터의 중복을 허용하지 않음
+- HashSet, TreeSet
+
+Map 인터페이스
+- 키와 값을 한 쌍으로 이루어지는 데이터의 집합으로 순서가 없고, 키는 중복으로 허용하지 않지만 값은 중복될 수 있음
+- HashMAp, TreeMap, HashTable, Properties
+
+Vector 클래스
+- 동적인 길이로 여러 데이터형을 저장하기 위해 사용
+- 자바 1.0부터 존재하는 레거시 클래스
+- 배열과 동일하게 정수 인덱스를 이용하여 엑세스 할 수 있음
+- 동기화 되어 있으며 한번에 하나의 스레드만 벡터의 메소드를 호출할 수 있음
+
+* 동기식
+    차례(순서)대로 처리
+* 비동기식
+    여러개의 프로그램을 동시에 처리, 시간이 오래 걸리면 다음 문장으로 이동 후 다시 돌아가는 방식
+
+
