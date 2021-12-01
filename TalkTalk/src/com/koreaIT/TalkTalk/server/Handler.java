@@ -59,7 +59,7 @@ public class Handler implements Runnable{
         message.setName(adminName);
         message.setType(type);
         message.setMessage(adminMessage);
-        message.setUserList(userList.getList());
+        message.setUserList(userList.getList());////주석///
     }
 
     private void sendDuplicateError() throws IOException{
